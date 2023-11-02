@@ -1,0 +1,214 @@
+1)
+select add_months(trunc(to_date('2023-30-09','yyyy-dd-mm'),'mm'),-3)
+  2  from dual;
+
+ADD_MONTH
+---------
+01-JUN-23
+2)
+select add_months(sysdate,-3)
+  2  from dual;
+
+ADD_MONTH
+---------
+30-JUN-23
+3)
+ select * from emp
+  2  where to_char(hiredate,'day')='wednesday';
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+4)
+select trunc(sysdate,'year')
+  2  from dual;
+
+TRUNC(SYS
+---------
+01-JAN-23
+5)
+> select round(sysdate,'year')-1
+  2  from dual;
+
+ROUND(SYS
+---------
+31-DEC-23
+ select add_months(sysdate,3)-2
+  2  from dual;
+
+ADD_MONTH
+---------
+31-DEC-23
+
+
+6)
+ select floor(months_between(sysdate,'15-sep-2001')/12) age
+  2  from dual;
+
+       AGE
+----------
+        22
+7)
+select  to_char(sysdate,'month dd,yyyy')
+  2  from dual;
+
+TO_CHAR(SYSDATE,'
+-----------------
+october   04,2023
+
+8)
+select  to_char(sysdate,' day month yyyy')
+  2  from dual;
+
+TO_CHAR(SYSDATE,'DAYMONTH
+-------------------------
+ wednesday october   2023
+9) select extract(year from sysdate)
+  2  from dual;
+
+EXTRACT(YEARFROMSYSDATE)
+------------------------
+                    2023
+10)
+ select ename,hiredate from emp
+  2  where hiredate between '17-dec-80' and '01-may-81';
+
+ENAME      HIREDATE
+---------- ---------
+SMITH      17-DEC-80
+ALLEN      20-FEB-81
+WARD       22-FEB-81
+JONES      02-APR-81
+BLAKE      01-MAY-81
+
+11)
+ select  to_char(sysdate,' day dd month yyyy HH:MM:SS')timestamp from dual;
+
+TIMESTAMP
+-------------------------------------
+ wednesday 04 october   2023 09:10:21
+12)
+select  to_char(sysdate,'dd/mm/yyyy')
+  2  from dual;
+
+TO_CHAR(SY
+----------
+04/10/2023
+
+13)
+select  to_char(sysdate,'HH:MI A.M. mon dd,yyyy')
+  2  from dual;
+
+TO_CHAR(SYSDATE,'HH:MI
+----------------------
+09:17 P.M. oct 04,2023
+
+
+14)
+select * from emp
+  2  where extract(month from hiredate)=12;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7900 JAMES      CLERK           7698 03-DEC-81       1300                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000         
+
+15)
+ select deptno,count(*),extract(year from hiredate)
+  2  from emp
+  3  group by deptno,extract(year from hiredate)
+  4  having count(*)>5;
+
+    DEPTNO   COUNT(*) EXTRACT(YEARFROMHIREDATE)
+---------- ---------- -------------------------
+        30          6                      1981s
+
+16)
+select ename ,hiredate from emp
+  2  where extract(year from hiredate)=1981;
+
+ENAME      HIREDATE
+---------- ---------
+ALLEN      20-FEB-81
+WARD       22-FEB-81
+JONES      02-APR-81
+MARTIN     28-SEP-81
+BLAKE      01-MAY-81
+CLARK      09-JUN-81
+KING       17-NOV-81
+TURNER     08-SEP-81
+JAMES      03-DEC-81
+FORD       03-DEC-81
+
+10 rows selected.  
+17)
+select ename,hiredate,floor(months_between(sysdate,hiredate)/12) exp
+  2  from emp
+  3* where floor(months_between(sysdate,hiredate)/12) >5
+SQL> /
+
+ENAME      HIREDATE         EXP
+---------- --------- ----------
+SMITH      17-DEC-80         42
+ALLEN      20-FEB-81         42
+WARD       22-FEB-81         42
+JONES      02-APR-81         42
+MARTIN     28-SEP-81         42
+BLAKE      01-MAY-81         42
+CLARK      09-JUN-81         42
+KING       17-NOV-81         41
+TURNER     08-SEP-81         42
+ADAMS      12-JAN-83         40
+JAMES      03-DEC-81         41
+FORD       03-DEC-81         41
+MILLER     23-JAN-82         41
+
+13 rows selected.    
+
+18)
+select empno,ename,hiredate,sal,to_char(sal,'$99,999,999.99') new_sal
+  2  from emp;
+
+     EMPNO ENAME      HIREDATE         SAL NEW_SAL
+---------- ---------- --------- ---------- ---------------
+      7369 SMITH      17-DEC-80        800         $800.00
+      7499 ALLEN      20-FEB-81       1300       $1,300.00
+      7521 WARD       22-FEB-81       1300       $1,300.00
+      7566 JONES      02-APR-81       2975       $2,975.00
+      7654 MARTIN     28-SEP-81       1300       $1,300.00
+      7698 BLAKE      01-MAY-81       1300       $1,300.00
+      7782 CLARK      09-JUN-81       2450       $2,450.00
+      7839 KING       17-NOV-81       5000       $5,000.00
+      7844 TURNER     08-SEP-81       1300       $1,300.00
+      7876 ADAMS      12-JAN-83       1100       $1,100.00
+      7900 JAMES      03-DEC-81       1300       $1,300.00
+      7902 FORD       03-DEC-81       3000       $3,000.00
+      7934 MILLER     23-JAN-82       1300       $1,300.00
+
+13 rows selected.
+19)
+select ename,hiredate,floor(months_between(sysdate,hiredate)/12) exp
+  2  from emp;
+
+ENAME      HIREDATE         EXP
+---------- --------- ----------
+SMITH      17-DEC-80         42
+ALLEN      20-FEB-81         42
+WARD       22-FEB-81         42
+JONES      02-APR-81         42
+MARTIN     28-SEP-81         42
+BLAKE      01-MAY-81         42
+CLARK      09-JUN-81         42
+KING       17-NOV-81         41
+TURNER     08-SEP-81         42
+ADAMS      12-JAN-83         40
+JAMES      03-DEC-81         41
+FORD       03-DEC-81         41
+MILLER     23-JAN-82         41
+
+20)
+
+     
